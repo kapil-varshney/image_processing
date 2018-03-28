@@ -5,19 +5,24 @@ import matplotlib.pyplot as plt
 
 def zoom_image(img, k):
 
+    # Retrieve the image dimensions
     height = img.shape[0]
     width = img.shape[1]
     channels = img.shape[2]
+
+    #Initialize zoom image lists
     z_img_l = [[] for c in range(channels)]
     z_img_lt = [[[0 for a in range(channels)] for b in range(width*k)] for c in range(height*k)]
-    print(np.array(z_img_lt).shape)
+
+    # Perform Pixel replication for each channel and append the channels
     for c in range(channels):
         img_l = img[:,:,c].tolist()
         z_img_l[c] = pixel_rep(img_l, height, width, k)
 
-    print(np.array(z_img_l).shape)
+    #Transpose the zoomed image in appropriate dimensions
     z_img_lt = [[[z_img_l[a][c][b] for a in range(channels)] for b in range(width*k)] for c in range(height*k)]
-    print(np.array(z_img_lt).shape)
+
+    #Return the zoomed image in lists format
     return z_img_lt
 
 def pixel_rep(img_l, height, width, k=2):
@@ -65,10 +70,10 @@ if __name__ == '__main__':
         print ('Not a valid factor')
         exit()
 
-
-    #zoom_img = np.transpose(np.array(zoom_image(img, scale)), (1,2,0))
+    # Call the zoom_image function and get the zoomed image converted into ndarray
     zoom_img = np.array(zoom_image(img, scale))
-    #print (zoom_img.shape)
+
+    #Display the zoomed image
     fig.add_subplot(1,2,2)
     plt.imshow(zoom_img)
     plt.show()
